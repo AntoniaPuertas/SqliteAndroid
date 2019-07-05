@@ -22,7 +22,8 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //Aquí creamos las tablas
         db.execSQL("CREATE TABLE " + ContratoBD.ColumnasLista.TABLE_NAME + " (" +
-                ContratoBD.ColumnasLista.ID_LISTA + " integer primary key not null," +
+                ContratoBD.ColumnasLista._ID + " integer primary key autoincrement," +
+                ContratoBD.ColumnasLista.ID_LISTA + " integer not null," +
                 ContratoBD.ColumnasLista.ID_USUARIO_APP + " integer  not null," +
                 ContratoBD.ColumnasLista.ID_LUGAR + " integer  not null," +
                 ContratoBD.ColumnasLista.NOMBRE_LISTA + " TEXT  not null," +
@@ -35,13 +36,16 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
                 ContratoBD.ColumnasLista.IMPORTANTE_LISTA + " int  not null," +
                 ContratoBD.ColumnasLista.ESFERA_LISTA + " TEXT  not null," +
                 ContratoBD.ColumnasLista.MOTIVO_LISTA + " TEXT  not null," +
-                ContratoBD.ColumnasLista.LINK_LISTA+ " TEXT  not null)");
+                ContratoBD.ColumnasLista.LINK_LISTA+ " TEXT  not null," +
+                " UNIQUE (" + ContratoBD.ColumnasLista.ID_LISTA + "))");
 
         db.execSQL("CREATE TABLE "+ ContratoBD.ColumnasItem.TABLE_NAME +" ( " +
-                ContratoBD.ColumnasItem.ID_ITEM + " integer primary key  not null," +
+                ContratoBD.ColumnasItem._ID + " integer primary key autoincrement," +
+                ContratoBD.ColumnasItem.ID_ITEM + " integer not null," +
                 ContratoBD.ColumnasItem.ID_LISTA + " integer  not null," +
                 ContratoBD.ColumnasItem.ITEM+ " TEXT  not null," +
-                "FOREIGN KEY(item_listaFK) REFERENCES " + ContratoBD.ColumnasLista.TABLE_NAME + "("+ContratoBD.ColumnasLista.ID_LISTA+"))");
+                " UNIQUE (" + ContratoBD.ColumnasLista.ID_LISTA + ")," +
+                "FOREIGN KEY("+ ContratoBD.ColumnasItem.ID_ITEM +") REFERENCES " + ContratoBD.ColumnasLista.TABLE_NAME + "("+ContratoBD.ColumnasLista.ID_LISTA+"))");
 
         //insertar datos de prueba
         mockData(db);
